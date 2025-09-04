@@ -21,13 +21,13 @@ def gaussianTime(liUTC, var, boxcarWidth, binSize):
     secondsL = [(c - liUTC[0]).total_seconds() for c in liUTC]
         
     # Boxcar width should equal the time constant
-    wid = 0.5 * (boxcarWidth / binSize)
-    sigma = (wid*binSize) / 6
+    # Sigma controls the weight distribution away from center
+    sigma = boxcarWidth / 8
     
     gausAv = []
     for sec, i in zip(secondsL, var):
-        boxcarStart = sec - boxcarWidth
-        boxcarEnd = sec + boxcarWidth
+        boxcarStart = sec - (boxcarWidth/2)
+        boxcarEnd = sec + (boxcarWidth/2)
         
         # Make sure the boxcar stays bounded on data edges
         if boxcarStart < 0:
